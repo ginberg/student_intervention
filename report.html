@@ -11783,7 +11783,6 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong></p>
 <p>The goal is to identify students who might need early intervention before they fail to graduate. This can be achieved to predict the 'passed' feature, this is a categorical variable with 2 possible values (yes/no). Since the type of supervised learning problem depends on the type of the predicted output, it is a classification problem.</p>
 
 </div>
@@ -11801,7 +11800,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[138]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import libraries</span>
@@ -11831,7 +11830,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[138]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -12158,7 +12157,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[139]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">division</span>
@@ -12166,8 +12165,8 @@ div#notebook {
 <span class="c1"># Calculate number of students</span>
 <span class="n">n_students</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_data</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 
-<span class="c1"># Calculate number of features</span>
-<span class="n">n_features</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_data</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="c1"># Calculate number of features (last column of the data is the label, so this one should not be counted)</span>
+<span class="n">n_features</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_data</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
 
 <span class="c1"># Calculate passing students</span>
 <span class="n">n_passed</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_data</span><span class="p">[</span><span class="n">student_data</span><span class="o">.</span><span class="n">passed</span> <span class="o">==</span> <span class="s1">&#39;yes&#39;</span><span class="p">])</span>
@@ -12175,8 +12174,9 @@ div#notebook {
 <span class="c1"># Calculate failing students</span>
 <span class="n">n_failed</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">student_data</span><span class="p">[</span><span class="n">student_data</span><span class="o">.</span><span class="n">passed</span> <span class="o">==</span> <span class="s1">&#39;no&#39;</span><span class="p">])</span>
 
-<span class="c1"># Calculate graduation rate</span>
+<span class="c1"># Calculate graduation rate and balance rate</span>
 <span class="n">grad_rate</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_passed</span> <span class="o">/</span> <span class="n">n_students</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="n">balance_rate</span> <span class="o">=</span> <span class="p">(</span><span class="n">n_passed</span> <span class="o">/</span> <span class="n">n_failed</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
 <span class="c1"># Print the results</span>
 <span class="k">print</span> <span class="s2">&quot;Total number of students: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_students</span><span class="p">)</span>
@@ -12184,6 +12184,7 @@ div#notebook {
 <span class="k">print</span> <span class="s2">&quot;Number of students who passed: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_passed</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Number of students who failed: {}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">n_failed</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Graduation rate of the class: {:.2f}%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">grad_rate</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Balance rate: {:.2f}%&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">balance_rate</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12197,10 +12198,11 @@ div#notebook {
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Total number of students: 395
-Number of features: 31
+Number of features: 30
 Number of students who passed: 265
 Number of students who failed: 130
 Graduation rate of the class: 67.09%
+Balance rate: 203.85%
 </pre>
 </div>
 </div>
@@ -12223,7 +12225,7 @@ Graduation rate of the class: 67.09%
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[140]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Extract feature columns</span>
@@ -12305,7 +12307,7 @@ Feature values:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="prompt input_prompt">In&nbsp;[141]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">preprocess_features</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
@@ -12376,7 +12378,7 @@ Feature values:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="prompt input_prompt">In&nbsp;[142]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import any additional functionality you may need here</span>
@@ -12457,18 +12459,36 @@ Testing set has 95 samples.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong></p>
+<p><strong>Dataset properties</strong></p>
+<ul>
+<li>not much training data (300 students)</li>
+<li>in absolute sense not many features (30)</li>
+<li>the labels are unbalanced but not too bad (more than 2 many student passed than failed)</li>
+</ul>
 <p><strong>DecisionTreeClassifier</strong></p>
 <ul>
 <li>DecisionTreeClassifiers are used in nursing to help making predictions (see <a href="https://www.nursingtimes.net/roles/nurse-managers/using-decision-trees-to-aid-decision-making-in-nursing/204292.article">https://www.nursingtimes.net/roles/nurse-managers/using-decision-trees-to-aid-decision-making-in-nursing/204292.article</a>) </li>
 <li>Advantages of this model is that the model is human readable and it is fast in making predictions (once the model is build). </li>
 <li>Disadvantages are that the model building phase can be slow and it can quickly overfit to the training data.</li>
 </ul>
+<p>I have chosen DecisionTreeClassifier because</p>
+<ul>
+<li>it can be used for binary classification problems</li>
+<li>once the model is trained, predictions are fast </li>
+<li>it is human readable</li>
+</ul>
 <p><strong>Support Vector Machines (SVM)</strong></p>
 <ul>
 <li>SVM's are used in document classification systems (<a href="https://www.quantstart.com/articles/Supervised-Learning-for-Document-Classification-with-Scikit-Learn">https://www.quantstart.com/articles/Supervised-Learning-for-Document-Classification-with-Scikit-Learn</a>) </li>
-<li>SVM's work well in high dimensionality space (many features) and can handle non lineair relations between features. </li>
+<li>SVM's work well in high dimensionality space (many features) and can handle non lineair relations between features. Next to this, once a hyperplane is found, small changes to the dataset cannot change the hyperplane and the SMV a lot, so SVMs tend to generalize very well.</li>
 <li>Disadvantage are that it isn't efficient with large datasets and it can be hard to set the right parameters (e.g. kernel)</li>
+</ul>
+<p>I have chosen SVM because</p>
+<ul>
+<li>it can be used for binary classification problems</li>
+<li>it can handle complexer, non lineair relations between features</li>
+<li>our dataset is small, so performance should be good </li>
+<li>they are quite robust</li>
 </ul>
 <p><strong>Logistic Regression (LR) </strong></p>
 <ul>
@@ -12476,7 +12496,12 @@ Testing set has 95 samples.
 <li>The advantages of this model are that it is fast and simple. It is simple because it assumes a lineair relation between features. It works best when there is a single decision boundary. </li>
 <li>Disadvantages are that it can only model lineair relations and doesn't work so well if the feature space is high.</li>
 </ul>
-<p>All of these 3 models can be used in binary classification problems, therefore I have selected these.</p>
+<p>I have chosen LR because</p>
+<ul>
+<li>it can be used for binary classification problems</li>
+<li>it is very simple and explainable to an audience</li>
+<li>it is fast</li>
+</ul>
 
 </div>
 </div>
@@ -12501,7 +12526,7 @@ Testing set has 95 samples.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="prompt input_prompt">In&nbsp;[143]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">train_classifier</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>
@@ -12574,7 +12599,7 @@ Testing set has 95 samples.
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="prompt input_prompt">In&nbsp;[144]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Import the three supervised learning models from sklearn</span>
@@ -12582,10 +12607,13 @@ Testing set has 95 samples.
 <span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
 
+<span class="c1"># Define a random state to seed algorithms</span>
+<span class="n">ran_state</span> <span class="o">=</span> <span class="mi">21</span>
+
 <span class="c1"># Initialize the three models</span>
-<span class="n">clf_A</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">clf_B</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">clf_C</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">clf_A</span> <span class="o">=</span> <span class="n">tree</span><span class="o">.</span><span class="n">DecisionTreeClassifier</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">ran_state</span><span class="p">)</span>
+<span class="n">clf_B</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">ran_state</span><span class="p">)</span>
+<span class="n">clf_C</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">ran_state</span><span class="p">)</span>
 
 <span class="c1"># Set up the training set sizes</span>
 <span class="n">training_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">300</span><span class="p">]</span>
@@ -12610,59 +12638,59 @@ Testing set has 95 samples.
 <pre>
 DecisionTreeClassifier:
 Training a DecisionTreeClassifier using a training set size of 100. . .
-Trained model in 0.0025 seconds
-Made predictions in 0.0004 seconds.
-F1 score for training set: 1.0000.
-Made predictions in 0.0004 seconds.
-F1 score for test set: 0.6942.
-Training a DecisionTreeClassifier using a training set size of 200. . .
-Trained model in 0.0038 seconds
-Made predictions in 0.0005 seconds.
-F1 score for training set: 1.0000.
-Made predictions in 0.0004 seconds.
-F1 score for test set: 0.7132.
-Training a DecisionTreeClassifier using a training set size of 300. . .
-Trained model in 0.0055 seconds
+Trained model in 0.0031 seconds
 Made predictions in 0.0006 seconds.
 F1 score for training set: 1.0000.
+Made predictions in 0.0005 seconds.
+F1 score for test set: 0.6786.
+Training a DecisionTreeClassifier using a training set size of 200. . .
+Trained model in 0.0047 seconds
+Made predictions in 0.0006 seconds.
+F1 score for training set: 1.0000.
+Made predictions in 0.0005 seconds.
+F1 score for test set: 0.7692.
+Training a DecisionTreeClassifier using a training set size of 300. . .
+Trained model in 0.0061 seconds
+Made predictions in 0.0004 seconds.
+F1 score for training set: 1.0000.
 Made predictions in 0.0003 seconds.
-F1 score for test set: 0.7167.
+F1 score for test set: 0.7179.
 
 SVC:
 Training a SVC using a training set size of 100. . .
-Trained model in 0.0027 seconds
-Made predictions in 0.0015 seconds.
+Trained model in 0.0025 seconds
+Made predictions in 0.0016 seconds.
 F1 score for training set: 0.8591.
 Made predictions in 0.0013 seconds.
 F1 score for test set: 0.7838.
 Training a SVC using a training set size of 200. . .
-Trained model in 0.0052 seconds
-Made predictions in 0.0036 seconds.
+Trained model in 0.0055 seconds
+Made predictions in 0.0034 seconds.
 F1 score for training set: 0.8693.
 Made predictions in 0.0016 seconds.
 F1 score for test set: 0.7755.
 Training a SVC using a training set size of 300. . .
-Trained model in 0.0084 seconds
-Made predictions in 0.0062 seconds.
+Trained model in 0.0078 seconds
+Made predictions in 0.0056 seconds.
 F1 score for training set: 0.8692.
-Made predictions in 0.0022 seconds.
+Made predictions in 0.0019 seconds.
 F1 score for test set: 0.7586.
 
 LogisticRegression:
 Training a LogisticRegression using a training set size of 100. . .
-Trained model in 0.0009 seconds
+Trained model in 0.0011 seconds
 Made predictions in 0.0001 seconds.
 F1 score for training set: 0.8571.
 Made predictions in 0.0001 seconds.
 F1 score for test set: 0.7612.
 Training a LogisticRegression using a training set size of 200. . .
 Trained model in 0.0015 seconds
-Made predictions in 0.0053 seconds.
+Made predictions in 0.0061 seconds.
 F1 score for training set: 0.8380.
-Made predictions in 0.0002 seconds.
+Made predictions in 0.0001 seconds.
 F1 score for test set: 0.7794.
 Training a LogisticRegression using a training set size of 300. . .
-Trained model in 0.0034 seconds
+Trained model in 0.0028 seconds
 Made predictions in 0.0002 seconds.
 F1 score for training set: 0.8381.
 Made predictions in 0.0001 seconds.
@@ -12821,8 +12849,7 @@ F1 score for test set: 0.7910.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong>
-Let's compare the scores and execution times for the different classifiers.</p>
+<p>Let's compare the scores and execution times for the different classifiers.</p>
 <p>The DecisionTreeClassifier is fast but does not have a really good F1 score. There is a big difference in testing and training score, which means that the model is probably overfitted to the training data. With parameter tuning the score could be increased. 
 The SVM classifier has a medium test score but is not so fast. The test score decreases when the training set size increases, while the training score increases, this is again a sign of overfitting.
 The LR classifier has the best testing score of all classifiers. The difference between training and testing score is pretty small, this is an indication that this model is not overfitting as much as the other classifiers. The LR classifier is fast, though at a training set size of 300 the DecisionTreeClassifier is faster.</p>
@@ -12841,15 +12868,581 @@ The LR classifier has the best testing score of all classifiers. The difference 
 </div>
 </div>
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[145]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span> 
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">pylab</span> <span class="kn">as</span> <span class="nn">pl</span>
+
+<span class="c1">#plots the decision boundary for given classifier and training features and labels</span>
+<span class="k">def</span> <span class="nf">plotDecisionBoundary</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">):</span>    
+    <span class="c1">#create arrays for ease of use</span>
+    <span class="n">X_train_array</span> <span class="o">=</span> <span class="n">X_train_2feat</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+    <span class="n">y_train_array</span> <span class="o">=</span> <span class="n">y_train</span><span class="o">.</span><span class="n">as_matrix</span><span class="p">()</span>
+    
+    <span class="c1">#init plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Graduation prediction with two features&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="c1">#Calculate min,max values for x,y in order to create a meshgrid    </span>
+    <span class="n">h</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1"># step size in the mesh</span>
+    <span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X_train_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">2</span><span class="p">,</span> <span class="n">X_train_array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">2</span>
+    <span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X_train_array</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="n">X_train_array</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="o">.</span><span class="mi">5</span>
+    <span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="n">h</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">xx</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yy</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">max</span><span class="p">())</span> 
+    
+    <span class="c1">#make predictions and draw decision boundary</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+    <span class="n">probs</span><span class="p">[</span><span class="n">probs</span><span class="o">==</span><span class="s1">&#39;yes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">probs</span><span class="p">[</span><span class="n">probs</span><span class="o">==</span><span class="s1">&#39;no&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">probs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Greys_r&quot;</span><span class="p">)</span>
+    
+    <span class="c1">#plot training data points</span>
+    <span class="n">absence_failed</span> <span class="o">=</span> <span class="p">[</span><span class="n">X_train_array</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span> <span class="k">if</span> <span class="n">y_train_array</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;no&#39;</span><span class="p">]</span>
+    <span class="n">failures_failed</span> <span class="o">=</span> <span class="p">[</span><span class="n">X_train_array</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span> <span class="k">if</span> <span class="n">y_train_array</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;no&#39;</span><span class="p">]</span>
+    <span class="n">absence_passed</span> <span class="o">=</span> <span class="p">[</span><span class="n">X_train_array</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span> <span class="k">if</span> <span class="n">y_train_array</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;yes&#39;</span><span class="p">]</span>
+    <span class="n">failures_passed</span> <span class="o">=</span> <span class="p">[</span><span class="n">X_train_array</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span> <span class="k">if</span> <span class="n">y_train_array</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span><span class="o">==</span><span class="s1">&#39;yes&#39;</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">absence_failed</span><span class="p">,</span> <span class="n">failures_failed</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;failed&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">absence_passed</span><span class="p">,</span> <span class="n">failures_passed</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;passed&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1">#create new classifier and only fit on 2 features to be able to make it possible to draw decision boundary</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">ran_state</span><span class="p">)</span>
+<span class="n">X_train_2feat</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[[</span><span class="s1">&#39;absences&#39;</span><span class="p">,</span><span class="s1">&#39;failures&#39;</span><span class="p">]]</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_2feat</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">plotDecisionBoundary</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train_2feat</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+6KOlI46Qpk6VvvgiPbFMmzZNGRkZWr58uc4880x17dpVe+yxhy699FJt27atrt7999+vMWPGqGfP
+nsrKytJ3vvMd3XXXXfXae+utt3T88cerR48e6tSpk/r27avzzz8/rM4jjzyi7373u+rSpYu6du2q
+Aw88ULfffntYnc2bN+vSSy/VPvvso6ysLA0YMEA33nijnHP16p177rnq1q2bdtttN02ePFmbNm1K
+4hGKTfsW3yIAAEALc0565x1pzRpp//2lgoLo9aqrpZNPlv79b8nMW+/tt6X775f+8x8pP79l4zYz
+SdKZZ56p/fbbTzfccIMWL16s22+/XZs2bdIDDzwgSbrrrrtUUFCgk08+We3bt9ezzz6roqIiOec0
+ZcoUSdKGDRt0/PHHa88999SVV16pbt26qbS0VE888UTd9l5++WVNmDBBY8eO1Y033ihJ+vDDD1Vc
+XKxLLrlEkrRlyxaNGjVKn332maZMmaK9995bb7zxhq688kqVlZXp5ptvrmvv+9//vt544w1NmTJF
++++/v5588kmdc845dfvVUkh4AQBAoH32mXTKKdJ//7uzbMwY6bHHpN12C6/75JNesit5ya4k1dR4
+bfzxj9Idd9Rvf/t26V//khYskLp0kc4+WzrwwOTuQ79+/eoS0ylTpig3N1czZ87Ur3/9axUUFGjB
+ggXKzMysq19UVKRx48bp5ptvrkt433jjDW3atEmvvPKKDjnkkLq606dPr/v5hRdeULdu3fTSSy81
+GMtf/vIXrVmzRkuWLFHfvn0lSRdccIHy8/N100036Ve/+pV69+6tp59+WgsXLtRNN92kX/7yl3Wx
+H3300Uk7LrFiSAMAAAgs57xk9913w8vnz5d+/OP69Z95RmrXrn55dbX0+OP1y7/8Ujr8cGnCBOne
+e6Wbb5YOOki66aakhC/J6+X92c9+FlZ28cUXyzmnF154QZLCkt2vvvpKFRUVGjVqlFavXq3KykpJ
+Urdu3eSc0zPPPKMdO3ZE3Va3bt1UVVXVaML7+OOPa+TIkeratasqKirqXmPGjNGOHTu0YMECSV7y
+3KFDB1100UVh+1Ibe0si4QUAAIH1zjtez25kflddLT33nPTJJ81r/5prpA8+8H7esWPndi6/fGd5
+MvTv37/e+4yMDH3i78Drr7+uY489Vjk5OerWrZt69Oihq666SpI3jlaSjjrqKJ1xxhmaPn269thj
+D51yyil64IEHtH379rp2i4qKNHDgQI0fP1577723zj///HrJ78cff6wXX3xRPXr0CHuNHTtWZqb1
+69dLkj799FPl5+erU6dOYesPGjQoeQcmRiS8AAAgsNasaXx5aWn4++9/30uGI7VrJ51xRv3yBx+M
+Xr99e+nhh2MOs1lWr16tY489Vhs3btQtt9yiF154Qa+88oouu+wySVJNTU1d3UcffVTFxcW6+OKL
+9dlnn+m8887Td7/7XX3zzTeSpB49emjJkiV65plndPLJJ2v+/PkaN26czj333Lo2ampqNHbsWM2d
+O1evvPJK2Ovll1/W6aefLklyzkUdq9vSvbsSY3gBAECA7b9/w8vMpAEDwstOPVUaNy78prV27aRe
+vaTf/S68rnPS11833PZXXzUv9lAff/yx9t1337r3K1euVE1Njfbdd189++yz2r59u5599ln17t27
+rs7cuXOjtnXEEUfoiCOO0B/+8Ac9/PDDOvvss/XII4/ovPPOkyS1b99eJ5xwgk444QRJ3rjbu+++
+W7///e/Vt29f9evXT1VVVTrmmGMajblPnz6aN2+evvnmm7Be3uXLlyd8HBJFDy8AAAisggLvBrXI
+cbnt2klnneUlspHlTz/tTUs2apQ3Pveqq7yhEZEzNJh5dTKiZFPffis1kQ/GzDmnv/71r2Flt99+
+u8xM48aNUzt/50J7cjdv3lw3g0OtaNOBHXTQQZJUN8XZxo0b69UZMmRIWJ0zzzxTxcXFmjNnTr26
+mzdvrotj/Pjx+vbbbzVz5sy65TU1NbrjjjuYpQEAACCZHnvMu0Htuee892bSD3/oJbXRdOggXXCB
+92rKddd58/Wa7Rza0K6ddNhh0kknJSV8SdKaNWt08skn63vf+56Ki4s1a9YsTZw4UUOGDFFmZqY6
+dOigE088URdeeKEqKyt17733qmfPniorK6tr4x//+IdmzJihU089Vf369VNlZaXuuecede3aVePH
+j5ck/eQnP9HGjRs1evRo7bXXXiotLdWdd96pgw8+WAcccIAk6fLLL9czzzyjE088Ueeee64OO+ww
+ff3113r//ff1xBNPqLS0VLvvvrtOOukkjRgxQr/97W+1Zs0aDR48WE888UTdTXQtiYQXAAAE2m67
+Sc8+692gVlrqDWOI7NlN1PDh0muveQ+nWLBAysmRJk/23rdPUpZlZvrnP/+pa665RldeeaXat2+v
+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
+GjO8AAAgtBKJhO8Qsqqrq/MdwrRBwgsAAEIpEomotbXVdxhZdXV1+Q5h2iDhBQAAoVXOT1zjwRil
+Q8ILAABCKRaLkVRCEjetAQAAIOSY4QUAAKGVTCZ9h5BVc3Oz+vr6fIcxLZDwAgCAUIrFYopGo77D
+QBmgpAEAAISWmZXtx8knn6zu7m7fl2haYIYXAACEErO7GMEMLwAAgAe1tbUaHBz0Hca0QMILAACA
+UKOkAQAAwKNyreNta2vzHcKUIeEFAADwIBKJqKWlRSeddJLvUCaIx+O+Q5hSJLwAAAAe9fb2+g5h
+grDVFpPwAgAAeBCLxbRgwQLNmjXLdygT9PT0+A5hSnHTGgAAAEKNGV4AAABP6uvry/LxwnV1db5D
+mFIkvAAAAB7EYjHV1dWVZUlDV1eX7xCmFAkvAACARwMDA75DmGDRokXaunVraJYmq8iE18yukrRK
+0lxJT0r6tHPuFznaf0DSVyQtkNQt6QvOuZ+XIFQAAICMotGoGhsbdfjwYd+hTFCuawMfrYq7ac3M
+Vkr6mqRrJZ2hIOG9z8xOzNK+XdJdkv5N0umS1khaY2anliZiAACAylJfXx+qpckqLuGV9FlJ33TO
+3emce1rSJyS9JunKLO0/I+nnzrmbnXO/cc5dK+lxSZ8qTbiBmpph1dSYamqGc7Zbu1a67jrTunVT
+058krfrT32rJold19cf3T0mf3Wt36d7rtmj7ul2THvuNs15XTY2pcdbrOdutvW23rvvoM1p3++5J
++zxl4ZAitaa3tAzljrNbuvde0/btuftbddbDWjLzGV299KFJj53v+Kx61zYtObFXV79765T0J0n/
+8KfPaPmiZ3X9xyc5oTzddpv00Y+abr998rb5Xsvuf/ih7l1+s7Zf/8MpiVEq7Brlpbtbdu+9mvRk
+lP95F0UBcXpTCTECFSCZTJbdR319/ZSfZ92ePZr35JOq27NnyvuejDnnSn7Qo2VmNQqS2z92zv0k
+bfvtkmY75/4ww2uelfQ159zX07Z9WdJ7nXNnZDnOEklbNm3apCVLlhxTzLGa13RYdZIsbatTrfr1
+6tDMI1t6eqR3vKNaicRou4YGp3g8qYULR185O/aaXjs8sb+ZtQe0/9Xjxxx7zbcP6gNX1k9ou2Z1
+vy5ZOXrsOXX92jfwhgntGmcktLt/9Bt+X89+Xf6OXVqbOOvIthUNv9Dq+EKdsHDsD8Z7zk3o5/HG
+CX2+59yX9B+dDaPnveW3esc7a5QYmj163jX9im84rIWnz1a6T3zsNf376onn/skrD+ifvjl67vv2
+SZdfXqW1a0f/nluxYlirVw/rhBPSrs8X4/rATedMvD5fiuuSLy8dc+x8x2fNTc/oA188ZWKfN3fr
+kk+3FtyfJN3/7d36/StPkkv7+9Q0rPWrd+vclU0q1JYt0jvfWa2hodFj19Q4bdiQ1Omnj22b77Xc
+d3+XPvL7Cd3nLj6y7WK7T99e36gTzl1ccIxSYdcoL/v2qeryy1W1du2RTcMrVmh49WqNORnlf95F
+UUCc3lRCjECFGBgYUDnmYr/61a+0bt06velNbzrmvmpfeUXv/Jd/UfPW0Umg3aedpkc++UkNHn98
+jlfmtmvXLl177bWSdKZz7vFcbSst4W2StFtSu3NuU9r26yWd65xrz/Ca1yV9xDn3vbRtfyHpb5xz
+GbOFqUx4a2qqR3pN2xpc86Gh5JEtc+dWK5GY2K6hQdqzZ7Rdvv0V0jbfdpfMfUKdiTOUTCv9rtZh
+dTQ8oXv2jP3bIe/znvGqEkOzJrRrqDmgPa+N/SHIO85LqtTZaUomR9tVVzt1dDjdc8/o7HUh13Kq
+xyff/iSptqZKTjahrclpcGjyGf7xZsyo1tDQxGPX1EivvTb22Pleyz+o7dR61zHhe+Mi69R/DnYU
+HKNU2DXKR9Ull8g6O2XJ0de66mq5jg4N33PPmLb5nncxFBKnL5UQI1ApyvGGNUnat2+f7rjjjilJ
+eDtuvFFN27apanj0/8/hqiq9eOqp6rz66qPut5CEtxJLGjIxjWQVxWl/VILSgPGJio5sGykdWLtW
+qVmsie0SidG3cvPtTwrKGHK1HSlvyLfP7rXBzG5y3H2OSR2ntYmzxpQ3vHHW6zn7HClvWHvb7tTM
+bobzHpo9przhlIVDOfscKW/o7pbWrq0ak6hIUjJpWru26sg7r6vOejhnf+nlDfmOz6p3bcvdZ6q8
+Id/+pKCMIZjZndjWqarg8obbblNqZndif0NDY8sb8r2W3f/wQ93nLs74vXGfu/ioyhsKuUZ56e5W
+1dq1YxI0SbJkMpilTHtLPt/zLooC4vSmEmIEKkg0Gi3Lj6lSt2ePmrduHZPsSlLV8LCat24tWXlD
+pa3S8LKkpKQ547Y3Stqb5TV7Cmx/xKpVqzR79ti31VeuXKlLL700r2Cl6jz2O23ePP6X+libNpmW
+L3d59ydJ9z9ck7Nl50O1BcW4Y3NC0puzturZlNCi5QskSb89lPsHZf+hqCSnzQ8eytlu0wOHtPyK
+4PNdu2tztt3ZWxvEuSP3tezpMS1a5HT/r+flbNe5rfnI5/mOz/2/yL2OYufm+oL6k6TOScZx/UO1
++nzOFmM9+GDuYz/wgOmKK4Jj53std3Tuyt1u/S4tKiRIFXaN8mE7duTe39Mjt2iRpPzPuxgKidOX
+SogRwLGLxWJqaiq8bG68ur250626vXt1cO7cSfuJx+PauHHjmG2HDuXOI9JVVMLrnBsysy2SOiT9
+RJLMzFJffz3Ly+IZ9i9Pbc/ppptuOsaShqRyJ5RJSVVaujT3L89ly0b259efJF147pCe2pW9Zcd5
+g5KOz7vPlqUNOdpIrctG99fHBvTbQ9lrck6IDUiKaOn5sWD9jCyWXRA78vmC5kHt6I1lbbtw/qCk
+GrW05L6Wra3B/gvf+oKe6npL1nYdp+7WSIKf7/hceNYBPbU+e7uOpb+VNL+A8ZY6zh3Sg7uyt73o
+vMLuoD3/fKe7clzzCy4YPXa+17KlY4H0YI52Fy3IP8CUQq5RPlxLS+79raP11fmedzEUEqcvlRAj
+gPJxcM74OcfC9o9ob29Xe/vYytW0koZJVVQNrySZ2Z9IukPSn0varGDVhvdLeotzrs/M7pTU65z7
+y1T7dkkPSfqCpHskfTD1+RLn3LYsx6CGlxreMcemhpcaXmp4R1VCjACOzcDAgB555BE99thjx9zX
+R777Xb15505VpeWcw2Z6ZuFC3fnBDx51v7W1tXnX8FbUDK8kOee+n1pz9ysKShW6JF3snBt5EPV8
+SYfT2sfN7IOSvpr62K5ghYaMye5Uq1W/BjU743ZpdKWEeDyp9vaRX/CBhoZge7qZtQf0yuDEt85n
+1h5QMGM7as3qfr3vsonHXrN67LEbZyT00msTZ3AbZyQkja6+sDq+UJe1PzFmlYaOhie0Oj7xlvn3
+nPuSfvJwY8bt0uix4hsOq/3sA+NWaTig+IaJi3B/8soDuuXWief+ySvHnvvq1cO67LIqrV07mqx0
+dDitXj02UVnzpbje99UJ9zlqzZfiksau0pDv+Ky5uVvv+9zEp9Ksublb0ujMV779SdL61bt10WXN
+qaQ3YHJav3q3pMLfbtqwIamzzx5JegM1NcH28fK9lt9e36jLL+ocs0rDRdapb6+f+D2Qr0KuUT6G
+V69W1WWXydJWFnAdHcHKAuPke97FUEicvlRCjACOXSQSmTCrejR2Ll6s+htuUOPjoznpy2ecoZ3X
+XKP2mTNzvDK3H/4w/3tEKm6GtxSmcoZ3RHDzV7WkpIaGst8ruG5dUJ+4bJnT8uXH3p8kXf3x/ep8
+qFYd5w3qxm9lXzIo3z63r9ulnk0JtS5rOFK3m03jrNe1/1BUJ8QG9NKBSNZ2627frU0PHNKyC2Ja
+fkVz1naS9JaWIe3srdXC+YN6ekf2Gtft24N6y9ZWp1wlhVcvfUid25rVcepu3bj5vJzHznd8rn73
+VnVurlfH0t/qxp+ddsz9SdL1H9+u9Q/V6qLzBvX5bx17jeTttwc1uxdc4HTFFbnb5nstt1//Q/Ws
+36XWixZo0ef/6JhjlAq7RnnZvj2oM21tVc6TUf7nXRQFxOlNJcQI4KgMDAzo2Wef1aOPPjplfc7a
+u1ez+/rU/8Y36kCepQy5bN68WbfeeqsUtmXJSqUYCS8AAEAl2blzp/r6+iZv6MFTTz2lDRs26M47
+75Sm0bJkAAAAmCYWLy7soUYVV8MLAACA0kik30hRwUh4AQAAMEEkElFrGS81OGPGjLzbkvACAAAg
+o3J99HGhSHgBAAAwwVQ9ba1YTjzxxLzbkvACAAAgo2Ty6NY+LzckvAAAAJggFospGo36DiOj/v5+
+NTbm/3AjliUDAABARZk9e+KTZHNhhhcAAAAZmdnkjSoACS8AAAAmKNdyhhGF3LRGSQMAAABCjYQX
+AAAAoUbCCwAAgIpz3HH5V+aS8AIAACDUSHgBAAAQaiS8AAAAqDg1NTV5tyXhBQAAQKiR8AIAAKDi
+MMMLAAAApJDwAgAAINRIeAEAAFBxCnn0MQkvAAAAQo2EFwAAABUnEonk3ZaEFwAAAKFGwgsAAICK
+U1tbm3dbEl4AAACEGgkvAAAAQo2EFwAAAKFGwgsAAIBQI+EFAABAqJHwAgAAINRIeAEAABBqJLwA
+AAAINRJeAAAAhBoJLwAAAEKNhBcAAAChRsILAACAUCPhBQAAQKiR8AIAACDUSHgBAAAQaiS8AAAA
+CDUSXgAAAIQaCS8AAABCjYQXAAAAoUbCCwAAgFAj4QUAAECokfACAAAg1Eh4AQAAEGokvAAAAAg1
+El4AAACEGgkvAAAAQo2EFwAAAKFGwgsAAIBQI+EFAABAqJHwAgAAINRIeAEAABBqJLwAAAAINRJe
+AAAAhBoJLwAAAEKNhBcAAAChRsILAACAUCPhBQAAQKiR8AIAACDUSHgBAAAQaiS8AAAACDUSX3vW
+SAAAC6lJREFUXgAAAIQaCS8AAABCjYQXAAAAoVZRCa+ZnWBm3zGzfjPbb2bfMrPjJ3nNg2Y2nPaR
+NLNbShVzurvvvtvHYZEHxqa8MT7li7Epb4xP+WJsSquiEl5Jd0l6q6QOSZdIOlfSNyd5jZP0r5Lm
+SJorqUnSNUWMMavvfe97Pg6LPDA25Y3xKV+MTXljfMoXY1Nax/kOIF9m9hZJF0s60zn3RGrbpyXd
+Y2arnHN7crz8NedcXyniBAAAQHmppBnedkn7R5LdlPUKZnCXTfLaD5tZn5k9ZWZ/Z2axokUJAACA
+slIxM7wKyhFeSt/gnEua2b7Uvmy+I+lZSS9I+h1JN0hqk/T+IsUJAACAMuI94TWzv5f0+RxNnIK6
+3axdpNpkfrFz30r78ldmtkfSejNb6JzbmeVlUUl6+umncxy2cP39/Xr88centE9MDcamvDE+5Yux
+KW+MT/libI5dWp4WnaytOZc1VywJM2uQ1DBJsx2SLpd0k3PuSFszq5Y0IOn9zrkf53m8GZJekXSx
+c25dljYfUjAzDAAAgPL2YefcXbkaeJ/hdc4lJCUma2dmcUn1ZnZGWh1vh4IZ3k0FHPIMBTPCL+Zo
+c5+kD0vapSChBgAAQHmJSlqgIG/LyfsMbyHM7GeSGiX9haRaSbdK2uycuzy1f56kTkmXO+f+y8xa
+JH1I0s8UJNVvl3SzpOeccxd6OAUAAACUmPcZ3gJ9SNI3FKzOMCzpB5I+k7a/RsENaTNSXw9KuijV
+5nhJz0v6f5K+WqJ4AQAA4FlFzfACAAAAhaqkdXgBAACAgpHwAgAAINRIeEvAzK4ys51mdsjMNprZ
+Wb5jmo7M7J1m9hMz221mw2b2ngxtvmJmL5jZa2a2zsze7CPW6cbMvmhmm83sgJntNbMfmVnbuDYR
+M/tnM3vZzA6a2Q/MrNFXzNOJmX3CzJ40s/7UxwYz+/20/YxNmUj9LA2b2c1p2xgfT8zs2tR4pH9s
+S9vP2JQICW+RmdlKSV+TdK2CJdGelHSfmZ3oNbDp6XhJXZKuUoaHlZjZ5yV9StKfS1oq6VUFY1Vb
+yiCnqXdK+j8KHhN+kYIbUNeOewz4P0q6RNIfSzpX0jxJ/1HiOKer5xU8IOjM1Mf9kn5sZiMPBWJs
+ykBqMuW/K/g9k47x8WurpDkKngo7V9I5afsYmxLhprUiM7ONkjY55z6T+toU/PL4unPuBq/BTWNm
+Nizpfc65n6Rte0HSjc65/536epakvZI+6pz7vp9Ip6fUH4QvSTrXOfdoaiz6JF3qnPtRqs0pkn4t
+6fecc5v9RTs9mVlC0ioFv5wZG8/MbKakLQqW7fxrSU845z7Hz45fZnatpPc655Zk2MfYlBAzvEVk
+ZjUKZkM6R7a54C+M9ZLafcWFicxsoYK/vNPH6oCCh5owVqVXr2AWfl/q6zMVLKOYPj6/kfScGJ+S
+MrMqM7tUwfKPcTE25eKfJf3UOXf/uO2/K8bHt0WpUroeM1ttZieltvOzU0KVtg5vpTlRUrWCWcJ0
+eyWdUvpwkMNcBQlWprGaW/pwpq/UuyD/KOlR59xIrdtcSYOpP0LSMT4lYmanKUhwo5IOSvpD59zT
+ZnaGGBuvUn+AnK4guR1vjhgfnzZKukLSbyQ1SfqypIdTP0/8v1ZCJLx+mDLUkKIsMVald4ukUzW2
+zi0bxqd0nlbwtMp6BfWGd5rZuTnaMzYlYGbzFfyBuNw5N1TIS8X4FJ1zLv2Rt1vNbLOkZyX9iaSB
+LC9jbIqAkobiellSUsFf2OkaNXEmEX7tUfCfDGPlkZl9Q9K7JZ3vnHshbdceSbWpmrd0jE+JOOcO
+O+d2OOced859ScGNUZ8RY+PbmZLeKGmLmQ2Z2ZCk8yR9xswGFYxBhPEpD865fkndkt4sfnZKioS3
+iFJ/bW+R1DGyLfV2bYekDb7iwkTOuZ0K/vNJH6tZClYNYKxKIJXsvlfSBc6558bt3iLpsMaOT5uk
+kxW8zY7Sq5IUEWPj23pJixWUNLw99fFfklanfT4kxqcspG4ubJX0gvjZKSlKGorvZkl3mNkWSZsl
+fVbBzR63+wxqOjKz4xX8VW2pTS1m9nZJ+5xzzyt4W/CvzOwZSbsk/S9JvZJ+7CHcacXMbpH0QUnv
+kfSqmY3MtPc75waccwfM7N8l3Wxm+xXUkH5d0mPcyVx8ZvZVST9XsMJMnaQPK5hFXMHY+OWce1XS
+tvRtZvaqpIRz7teprxkfT8zsRkk/VVDG0CzpbxUkuXfzs1NaJLxF5pz7fmqJpa8oeLu8S9LFzrk+
+v5FNS78r6QEFtVFOwfrIknSHpCudczeY2QxJ31RQp/iIpHc55wZ9BDvNfELBmDw4bvvHJN2Z+vyz
+CkqEfqBgZvFeBWsqo/jmKBiHJkn9kn6pINkdWRGAsSkv4+s/GR9/5ku6S1KDgiXIHlWw5FgitZ+x
+KRHW4QUAAECoUcMLAACAUCPhBQAAQKiR8AIAACDUSHgBAAAQaiS8AAAACDUSXgAAAIQaCS8AAABC
+jYQXAAAAoUbCCwBlwszeZGbDZvY7vmMBgDAh4QWA8sLjLwFgipHwAkB5Md8BAEDYkPACQAmZ2cVm
+9oiZ7Tezl83sp2bWMq7ZW83sMTM7ZGZPmdm5aa+vN7PvmNlLZvaamf3GzD6atn++mX0vrf81Zvam
+tP23mdmPzOx/mtkLqTbfMLPqtDa1Zna9mT1nZgOpY3wsbf9pZvYzMztoZnvM7E4za0jb/34z+2Uq
+vpfNbK2Zxab8YgJAnkh4AaC0jpf0NUlnSrpQUlLSj8a1uUHSjZJOlxSX9FMzOyG17zpJb5F0cerf
+v5D0siSZ2XGS7pPUL+kdqY+Dku5N7RtxgaQWSedL+oikK1IfI74taaWkT6WO8QlJr6SOMVtSp6Qt
+kpak4miU9P3U/rmS7pL0rdRrz5P0QzFzDcAjc45yMQDwxczeKGmvpNMkvSppp6RrnHM3pfZXp7Z9
+3Tl3k5n9WFKfc+7jGfr6sKQvOedOTdtWK2m/pPc659ab2W0KktBWl/oFYGbfk5R0zn3IzNokPS2p
+wzn3QIZjfEnSOc65d6Vtmy/pOUltkuok/ZekBc6554/1+gDAVGCGFwBKyMzebGZ3mVmPmfVL2qHg
+RrWT05ptHPnEOZdUkEC+NbXpXyR90MyeSJUdtKe97u2SFqVKDQ6a2UFJCUkRSa1p7X7lxs52vKhg
+lnakj8OSHs5yCm+XdOG4Y/w6dQ6tkp6UdL+krWb2fTP7uJnV53VxAKBIjpu8CQBgCv2nghnbj0t6
+QVK1pK2Said5nZMk59y9ZnaypEskXSSp08y+4Zy7RtJMBcnxhzSxhKAv7fOhDH2PTIAcmiSOmZJ+
+IumaDMd40Tk3LGl5KhFfIenTkq4zs2XOuWcn6RsAioIZXgAoETN7g4K3/a9zzj3gnPuNpDdkaPp7
+aa+pVlDv+/TINudcwjl3p3PuI5L+h6Q/S+16XNIiBSUPO8Z9HMwzzKcU/G44L8v+xyW9TdKzGY5x
+JFl2zsWdc38r6QwFCfYf5nl8AJhyJLwAUDr7FZQY/JmZtZrZhQpuYBt/M8VVZvY+MztF0i2S6iXd
+Kklm9rdm9p7U698m6Q8kbUu97jsKbmD7sZmdY2YLzOx8M/snM5uXT4CpWdg7Jd1qZu9N9XGemX0g
+1eSfFSTpd5vZ75pZS2rliVstsNTMvmhmZ5rZSZL+WNKJaTECQMmR8AJAiaTqZlcqmLF9SkGyu2pk
+d9q/X0h9dEk6W9J/c87tS+0flPR3CmplH1RQb/vBVP+HJJ2r4Aay/1CQZP6bghreAwWE+glJP1CQ
+3P5a0r9KmpE6xosKVn+oUrAixC8l3Sxpf+r8DqRiuEfSbyR9RdLnnHNrCzg+AEwpVmkAAABAqDHD
+CwAAgFAj4QUAAECokfACAAAg1Eh4AQAAEGokvAAAAAg1El4AAACEGgkvAAAAQo2EFwAAAKFGwgsA
+AIBQI+EFAABAqJHwAgAAINRIeAEAABBq/x/Ihj6SmiYK5QAAAABJRU5ErkJggg==
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong></p>
 <p>The model should predict weather a student might fail to graduate in order to intervene in time and help him/her. To create a model that is able to make predictions, data from previous students can be used. That data contains if the student has graduated but also other properties about them like age, the amount of studytime, their absences, etc. If we have those properties for new students, it can be feed to the model and it will predict if a student will graduate or not.</p>
 <p>The model I have created is a Logistic Regression model. This is a very simple and fast method used for making predictions in cases where we have historical data in which we know the succes or failure of the events. 
-It is simple because it assumes a lineair relation between the student properties. So not complex mathematical functions have to be used and this saved computing time compared to other models.</p>
+It is simple because it assumes a lineair relation between the student properties. So not complex mathematical functions have to be used and this saved computing time compared to other models.
+To get an impression how the model is created, I have drawn the picture above. In this (simple) example I have chosen to look at the following properties:</p>
+<ul>
+<li>absences: the number of school absences</li>
+<li>failures: number of failures in past classes</li>
+</ul>
+<p>One might expect that a high number of past failures and a lot of school absences might have a negative influence on the graduation result. The model is plotting a point for every student in the dataset, a red one if the student did not graduate and a blue dot if the student passed. For students that did have 0 failures and less than 20 absences, everyone graduated. After plotting all points, the model is drawing a line to separate the space into 2 subspaces, one in which it is very likely the student will graduate (white) and one in which it is likely he/she will not graduate (dark gray). The model is not perfect, so in this simple example there are red points (failures) in the passed subspace (white). However, the model can handle more than the 2 features that I have chosen here and it can also find the most relevant ones, so it probably does a better job than the picture above.</p>
 
 </div>
 </div>
@@ -12880,25 +13473,29 @@ It is simple because it assumes a lineair relation between the student propertie
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[146]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Import &#39;gridSearchCV&#39; and &#39;make_scorer&#39;</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">make_scorer</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">f1_score</span><span class="p">,</span> <span class="n">make_scorer</span>
 <span class="kn">from</span> <span class="nn">sklearn.grid_search</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">StratifiedShuffleSplit</span>
 
 <span class="c1"># Create the parameters list you wish to tune</span>
 <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> 
-              <span class="s1">&#39;class_weight&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;balanced&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">]}</span>
+              <span class="s1">&#39;class_weight&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;balanced&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">],</span>
+              <span class="s1">&#39;fit_intercept&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;True&#39;</span><span class="p">,</span> <span class="s1">&#39;False&#39;</span><span class="p">]}</span>
 
 <span class="c1"># Initialize the classifier</span>
-<span class="n">clf</span> <span class="o">=</span>  <span class="n">linear_model</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">clf</span> <span class="o">=</span>  <span class="n">linear_model</span><span class="o">.</span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="n">ran_state</span><span class="p">)</span>
+
+<span class="c1"># Create the Stratified Shuffle Split object, since labels are unbalanced</span>
+<span class="n">sss</span> <span class="o">=</span> <span class="n">StratifiedShuffleSplit</span><span class="p">(</span><span class="n">y_train</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.24</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">ran_state</span><span class="p">)</span>
 
 <span class="c1"># Make an f1 scoring function using &#39;make_scorer&#39; </span>
 <span class="n">f1_scorer</span> <span class="o">=</span> <span class="n">make_scorer</span><span class="p">(</span><span class="n">f1_score</span><span class="p">,</span> <span class="n">pos_label</span><span class="o">=</span><span class="s1">&#39;yes&#39;</span><span class="p">)</span>
 
 <span class="c1"># Perform grid search on the classifier using the f1_scorer as the scoring method</span>
-<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">scoring</span> <span class="o">=</span> <span class="n">f1_scorer</span><span class="p">)</span>
+<span class="n">grid_obj</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">scoring</span> <span class="o">=</span> <span class="n">f1_scorer</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">sss</span><span class="p">)</span>
 
 <span class="c1"># Fit the grid search object to the training data and find the optimal parameters</span>
 <span class="n">grid_obj</span> <span class="o">=</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
@@ -12906,8 +13503,10 @@ It is simple because it assumes a lineair relation between the student propertie
 <span class="c1"># Get the estimator</span>
 <span class="n">clf</span> <span class="o">=</span> <span class="n">grid_obj</span><span class="o">.</span><span class="n">best_estimator_</span>
 
-<span class="c1"># Report the final F1 score for training and testing after parameter tuning</span>
+<span class="c1"># Print the parameters</span>
+<span class="k">print</span> <span class="n">clf</span><span class="o">.</span><span class="n">get_params</span><span class="p">(),</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
+<span class="c1"># Report the final F1 score for training and testing after parameter tuning</span>
 <span class="k">print</span> <span class="s2">&quot;Tuned model has a training F1 score of {:.4f}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predict_labels</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">))</span>
 <span class="k">print</span> <span class="s2">&quot;Tuned model has a testing F1 score of {:.4f}.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">predict_labels</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span>
 </pre></div>
@@ -12922,10 +13521,12 @@ It is simple because it assumes a lineair relation between the student propertie
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Made predictions in 0.0002 seconds.
-Tuned model has a training F1 score of 0.8269.
+<pre>{&#39;warm_start&#39;: False, &#39;C&#39;: 0.1, &#39;n_jobs&#39;: 1, &#39;verbose&#39;: 0, &#39;intercept_scaling&#39;: 1, &#39;fit_intercept&#39;: &#39;True&#39;, &#39;max_iter&#39;: 100, &#39;penalty&#39;: &#39;l2&#39;, &#39;multi_class&#39;: &#39;ovr&#39;, &#39;random_state&#39;: 21, &#39;dual&#39;: False, &#39;tol&#39;: 0.0001, &#39;solver&#39;: &#39;liblinear&#39;, &#39;class_weight&#39;: None} 
+
+Made predictions in 0.0004 seconds.
+Tuned model has a training F1 score of 0.8326.
 Made predictions in 0.0002 seconds.
-Tuned model has a testing F1 score of 0.7838.
+Tuned model has a testing F1 score of 0.7857.
 </pre>
 </div>
 </div>
@@ -12949,8 +13550,7 @@ Tuned model has a testing F1 score of 0.7838.
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong>
-The final F1 score for training and testing are respectively 0.8269 and 0.7838. Both are a little bit (about 1%) lower than the scores for the untuned model. This is somewhat unexpected because one would expect that the score would improve on tuning the parameters. However, the difference is not big and with a small dataset like this, these differences can occur.</p>
+<p>The final F1 score for training and testing are respectively 0.8326 and 0.7857. Both are a little bit (less than 1%) lower than the scores for the untuned model. This is somewhat unexpected because one would expect that the score would improve on tuning the parameters. However, the difference is not big and with a small dataset like this, these differences can occur.</p>
 
 </div>
 </div>

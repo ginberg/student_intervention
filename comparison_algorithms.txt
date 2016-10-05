@@ -1,0 +1,77 @@
+GaussianNB
+
+real world application: Spam filtering (https://en.wikipedia.org/wiki/Naive_Bayes_spam_filtering) 
+pro
+- simple, fast
+- small amount of training data
+con
+- naive (features independent)
+why good candidate?
+
+Ensemble Methods (Bagging, AdaBoost, Random Forest, Gradient Boosting)
+real world application: 
+pro
+con
+- can be complex
+why good candidate?
+
+Decision Trees
+build a tree with input features. Walk down the tree to determine the output for a given input.
+real world application: https://www.nursingtimes.net/roles/nurse-managers/using-decision-trees-to-aid-decision-making-in-nursing/204292.article
+pro
+- human readable
+- fast making predictions
+con
+- slow making model
+- can overfit quickly
+
+K-Nearest Neighbors
+classify labels into K groups
+pro
+- effective for large training data
+con
+- need to determine K
+- computation costs is quite high 
+
+Stochastic Gradient Descent 
+pro:
+- Efficiency.
+- Ease of implementation (lots of opportunities for code tuning).
+con:
+- SGD requires a number of hyperparameters such as the regularization parameter and the number of iterations.
+- SGD is sensitive to feature scaling
+
+SVM
+real world application: https://www.quantstart.com/articles/Supervised-Learning-for-Document-Classification-with-Scikit-Learn
+pro
+- work well in high dimensionality space
+con
+- complex to choose right paramters?
+- can be slow
+
+Logistic Regression
+http://www.ajronline.org/doi/full/10.2214/AJR.07.3345
+
+Used resources:
+https://www.quora.com/What-are-the-advantages-of-different-classification-algorithms
+http://www.edvancer.in/logistic-regression-vs-decision-trees-vs-svm-part2/
+http://machinelearningmastery.com/tactics-to-combat-imbalanced-classes-in-your-machine-learning-dataset/
+
+https://www.quora.com/What-are-the-advantages-of-using-a-decision-tree-for-classification
+https://www.quora.com/What-are-the-disadvantages-of-using-a-decision-tree-for-classification
+http://scikit-learn.org/stable/modules/tree.html#complexity
+http://www.cbcb.umd.edu/~salzberg/docs/murthy_thesis/survey/node32.html
+
+http://scikit-learn.org/stable/modules/svm.html
+https://www.researchgate.net/post/What_is_the_running_time_complexity_of_SVM_and_ANN
+http://cs229.stanford.edu/notes/cs229-notes3.pdf
+http://www.simafore.com/blog/bid/112816/When-do-support-vector-machines-trump-other-classification-methods
+
+http://cs229.stanford.edu/notes/cs229-notes1.pdf
+https://en.wikipedia.org/wiki/Logistic_regression
+http://scikit-learn.org/stable/modules/linear_model.html#logistic-regression
+
+
+
+
+
